@@ -1,0 +1,33 @@
+# ---------------------------------------------------------------
+# BUILD SYSTEM
+# Tells pip which tool to use to build this project, and what pip
+# must install first in order to run that tool.
+# ---------------------------------------------------------------
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+# ---------------------------------------------------------------
+# PROJECT METADATA
+# The standard set of fields describing this package.
+# ---------------------------------------------------------------
+[project]
+name = "doctalk"
+version = "0.1.0"
+description = "RAG + LangGraph agentic assistant for chatting with your own documents"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Param Malviya" },
+]
+
+
+# ---------------------------------------------------------------
+# PACKAGE DISCOVERY
+# Without this, setuptools searches the project ROOT and would try
+# to package api/, tests/, ui/, eval/ and research/ as well.
+# This restricts the search to src/ only.
+# ---------------------------------------------------------------
+[tool.setuptools.packages.find]
+where = ["src"]
