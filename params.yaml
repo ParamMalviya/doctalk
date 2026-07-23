@@ -1,0 +1,5 @@
+# model knobs used for experimenting with the model, separated from config.yaml because it is how model behaves and it is not file path.
+
+embedding_model: text-embedding-3-small
+chat_model: gpt-4o-mini
+temperature : 0.0

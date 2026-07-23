@@ -1,0 +1,6 @@
+# non-secret path and settings. We can freely edit this without touching the code.
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  chunk_size: 1000
+  chunk_overlap: 200
