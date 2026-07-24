@@ -238,3 +238,6 @@ desktop.ini
 # Belt and braces: .env is already covered above, but these variants are not.
 .env.local
 .env.*.local
+
+# test/eval documents - fetched, not committed
+eval/*.pdf
