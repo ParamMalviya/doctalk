@@ -4,3 +4,6 @@ data_ingestion:
   root_dir: artifacts/data_ingestion
   chunk_size: 1000
   chunk_overlap: 200
+
+vector_store:
+  root_dir: artifacts/sessions

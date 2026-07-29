@@ -11,3 +11,13 @@ class DataIngestionConfig:
     root_dir : Path
     chunk_size : int
     chunk_overlap : int
+
+@dataclass(frozen=True)
+class VectorStoreConfig:
+    '''
+    config for the session-scoped chroma vector store.
+    root_dir holds one subfolder per user session.
+    embedding_model comes from params.yaml.
+    '''
+    root_dir: Path
+    embedding_model: str

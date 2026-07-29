@@ -1,6 +1,6 @@
 from doctalk.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from doctalk.utils.common import read_yaml, create_directories
-from doctalk.entity import DataIngestionConfig
+from doctalk.entity import DataIngestionConfig, VectorStoreConfig
 from pathlib import Path
 
 class ConfigurationManager:
@@ -27,3 +27,19 @@ class ConfigurationManager:
         )
 
         return data_ingestion_config
+
+    def get_vector_store_config(self) -> VectorStoreConfig:
+        '''
+        vector store paths come from config.yaml, the embedding
+        model name comes from params.yaml. combine both into one entity.
+        '''
+        config = self.config["vector_store"]
+
+        create_directories([config["root_dir"]])
+
+        vector_store_config = VectorStoreConfig(
+            root_dir=Path(config["root_dir"]),
+            embedding_model=self.params["embedding_model"],
+        )
+
+        return vector_store_config

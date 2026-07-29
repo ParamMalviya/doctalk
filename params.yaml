@@ -1,5 +1,6 @@
-# model knobs used for experimenting with the model, separated from config.yaml because it is how model behaves and it is not file path.
+# model knobs. gemini free tier - no card needed.
+# free-tier prompts may be used by google for training; fine for a public-doc demo.
 
-embedding_model: text-embedding-3-small
-chat_model: gpt-4o-mini
-temperature : 0.0
+embedding_model: gemini-embedding-001
+chat_model: gemini-2.5-flash
+temperature: 0.0
