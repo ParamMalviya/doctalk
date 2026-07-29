@@ -9,4 +9,4 @@ vector_store:
   root_dir: artifacts/sessions
 
 retriever:
-  k: 4
+  k: 5

@@ -36,9 +36,22 @@ class VectorStore:
         '''
         embed the chunks and store them in this session's own collection.
         this is the write path: called once, when a user uploads a pdf.
+        clears any existing collection for this session first, so
+        re-uploading replaces instead of piling up duplicates.
         '''
         try:
             persist_path = self._session_path(session_id)
+
+            # make build idempotent: if this session already has a
+            # collection, wipe it before inserting, so running build
+            # twice gives one clean copy, not two
+            existing = Chroma(
+                persist_directory=persist_path,
+                collection_name=session_id,
+                embedding_function=self.embeddings,
+            )
+            existing.delete_collection()
+            logger.info(f"cleared any existing collection for session {session_id}")
 
             store = Chroma.from_documents(
                 documents=chunks,
