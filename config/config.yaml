@@ -7,3 +7,6 @@ data_ingestion:
 
 vector_store:
   root_dir: artifacts/sessions
+
+retriever:
+  k: 4

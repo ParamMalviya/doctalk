@@ -1,6 +1,6 @@
 from doctalk.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from doctalk.utils.common import read_yaml, create_directories
-from doctalk.entity import DataIngestionConfig, VectorStoreConfig
+from doctalk.entity import DataIngestionConfig, VectorStoreConfig, RetrieverConfig
 from pathlib import Path
 
 class ConfigurationManager:
@@ -43,3 +43,15 @@ class ConfigurationManager:
         )
 
         return vector_store_config
+
+    def get_retriever_config(self) -> RetrieverConfig:
+        '''
+        how many chunks to retrieve per question
+        '''
+        config = self.config["retriever"]
+
+        retriever_config = RetrieverConfig(
+            k=config["k"],
+        )
+
+        return retriever_config

@@ -21,3 +21,10 @@ class VectorStoreConfig:
     '''
     root_dir: Path
     embedding_model: str
+
+@dataclass(frozen=True)
+class RetrieverConfig:
+    '''
+    config for the retriever. k = how many chunks to pull per query.
+    '''
+    k: int
