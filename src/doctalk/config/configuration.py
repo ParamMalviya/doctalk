@@ -1,6 +1,6 @@
 from doctalk.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from doctalk.utils.common import read_yaml, create_directories
-from doctalk.entity import DataIngestionConfig, VectorStoreConfig, RetrieverConfig
+from doctalk.entity import DataIngestionConfig, VectorStoreConfig, RetrieverConfig, SummarizeToolConfig
 from pathlib import Path
 
 class ConfigurationManager:
@@ -55,3 +55,18 @@ class ConfigurationManager:
         )
 
         return retriever_config
+
+    def get_summarize_tool_config(self) -> SummarizeToolConfig:
+        '''
+        combine the batch size (config.yaml) with the chat model
+        and temperature (params.yaml) into one entity.
+        '''
+        config = self.config["summarize_tool"]
+
+        summarize_tool_config = SummarizeToolConfig(
+            batch_size=config["batch_size"],
+            chat_model=self.params["chat_model"],
+            temperature=self.params["temperature"],
+        )
+
+        return summarize_tool_config

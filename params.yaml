@@ -2,5 +2,5 @@
 # free-tier prompts may be used by google for training; fine for a public-doc demo.
 
 embedding_model: gemini-embedding-001
-chat_model: gemini-2.5-flash
+chat_model: gemini-flash-latest
 temperature: 0.0

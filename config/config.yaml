@@ -10,3 +10,6 @@ vector_store:
 
 retriever:
   k: 5
+
+summarize_tool:
+  batch_size: 10

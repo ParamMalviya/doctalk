@@ -28,3 +28,14 @@ class RetrieverConfig:
     config for the retriever. k = how many chunks to pull per query.
     '''
     k: int
+
+@dataclass(frozen=True)
+class SummarizeToolConfig:
+    '''
+    config for the whole-document summarize tool.
+    batch_size = how many chunks per map-step summary.
+    chat_model + temperature come from params.yaml.
+    '''
+    batch_size: int
+    chat_model: str
+    temperature: float
