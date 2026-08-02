@@ -4,6 +4,7 @@ from langchain_core.documents import Document
 from langchain_core.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 
+from doctalk.utils.common import normalise_content
 from doctalk.entity import SummarizeToolConfig
 from doctalk.logger import logger
 from doctalk.exception import CustomException
@@ -24,25 +25,10 @@ def build_summarize_tool(config: SummarizeToolConfig, chunks: list[Document]):
     )
 
     def _summarize_text(text: str, instruction: str) -> str:
-        '''one generation call: prompt in, summary text out.
-        gemini's .content can be a str OR a list of parts, so
-        normalise it to a plain string either way.'''
+        '''one generation call: prompt in, summary text out.'''
         prompt = f"{instruction}\n\n{text}"
         response = llm.invoke(prompt)
-        content = response.content
-
-        # normalise: sometimes content is a list of parts, not a string
-        if isinstance(content, list):
-            parts = []
-            for part in content:
-                # a part can be a plain string or a dict with a "text" key
-                if isinstance(part, str):
-                    parts.append(part)
-                elif isinstance(part, dict):
-                    parts.append(part.get("text", ""))
-            content = " ".join(parts)
-
-        return content
+        return normalise_content(response.content)
 
     @tool
     def summarize_document() -> str:

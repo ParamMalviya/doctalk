@@ -32,3 +32,25 @@ def create_directories(path_to_directories: list, verbose = True):
 
         if verbose:
             logger.info(f"created directory at: {path}")
+
+@ensure_annotations
+def normalise_content(content) -> str:
+    '''
+    gemini responses put .content as either a plain string OR a list
+    of parts (dicts with a "text" key). normalise either shape to a
+    plain string, so callers always get clean text.
+    '''
+    if isinstance(content, str):
+        return content
+
+    if isinstance(content, list):
+        parts = []
+        for part in content:
+            if isinstance(part, str):
+                parts.append(part)
+            elif isinstance(part, dict):
+                parts.append(part.get("text", ""))
+        return " ".join(parts)
+
+    # anything unexpected -> stringify it rather than crash
+    return str(content)
