@@ -1,0 +1,107 @@
+[
+  {
+    "question": "How many layers does the encoder have?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The encoder is composed of a stack of N = 6 identical layers [page 3]."
+  },
+  {
+    "question": "How many layers does the decoder have?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The decoder is composed of a stack of N = 6 identical layers [page 3]."
+  },
+  {
+    "question": "How many attention heads are used in the multi-head attention?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "In the multi-head attention mechanism described in the document, the authors employ **h = 8** parallel attention layers, or heads [page 5]."
+  },
+  {
+    "question": "What is the dimension of the model (d_model)?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The dimension of the model ($d_{model}$) is 512 [page 3, 5]."
+  },
+  {
+    "question": "What BLEU score did the model achieve on English-to-German translation?",
+    "tool": "retrieve",
+    "retrieval_hit": false,
+    "answer_correct": true,
+    "answer": "The Transformer (big) model achieved a BLEU score of 28.4 on the WMT 2014 English-to-German translation task [page 1, 8]. The base model achieved a BLEU score of 27.3 [page 8]."
+  },
+  {
+    "question": "What BLEU score did the model achieve on English-to-French translation?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The Transformer (big) model achieved a BLEU score of 41.8 on the WMT 2014 English-to-French translation task [page 1, 8]. \n\n(Note: While page 8 mentions a score of 41.0 in the text, Table 2 and the abstract on page 1 confirm the final state-of-the-art score achieved was 41.8.)"
+  },
+  {
+    "question": "What is the dimensionality of the feed-forward inner layer (d_ff)?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The dimensionality of the feed-forward inner layer ($d_{ff}$) is 2048 [page 5]."
+  },
+  {
+    "question": "What optimizer was used to train the model?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The model was trained using the **Adam optimizer** [page 7].\n\nThe specific hyperparameters used were:\n*   $\\beta_1 = 0.9$\n*   $\\beta_2 = 0.98$\n*   $\\epsilon = 10^{-9}$\n\nThe learning rate was varied throughout training using a warmup period of 4,000 steps, after which it was decreased proportionally to the inverse square root of the step number [page 7]."
+  },
+  {
+    "question": "How long did the big model take to train?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The big model was trained for 300,000 steps, which took 3.5 days [page 7, page 8]."
+  },
+  {
+    "question": "What hardware were the models trained on?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The models were trained on a single machine equipped with 8 NVIDIA P100 GPUs [page 7]."
+  },
+  {
+    "question": "What is the value of the dropout rate P_drop used?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "For the base model, the dropout rate used is $P_{drop} = 0.1$ [page 8]."
+  },
+  {
+    "question": "What activation function is used in the feed-forward networks?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The feed-forward networks in the Transformer use a **ReLU** (Rectified Linear Unit) activation function, which is represented as `max(0, xW1 + b1)` [page 5]."
+  },
+  {
+    "question": "What type of positional encoding does the model use?",
+    "tool": "retrieve",
+    "retrieval_hit": true,
+    "answer_correct": true,
+    "answer": "The model uses fixed positional encodings based on sine and cosine functions of different frequencies [page 6].\n\nThe specific formulas used are:\n*   $PE_{(pos, 2i)} = \\sin(pos / 10000^{2i/d_{model}})$\n*   $PE_{(pos, 2i+1)} = \\cos(pos / 10000^{2i/d_{model}})$\n\nThe authors chose this sinusoidal version because they hypothesized it would allow the model to easily learn to attend by relative positions and potentially allow the model to extrapolate to sequence lengths longer than those encountered during training [page 6]. While they also experimented with learned positional embeddings, they found that both versions produced nearly identical results [page 6, 9]."
+  },
+  {
+    "question": "Give me a summary of the document.",
+    "tool": "summarize",
+    "retrieval_hit": null,
+    "answer_correct": true,
+    "answer": "This document provides an overview of the Transformer architecture, a revolutionary neural network model that replaced traditional recurrent and convolutional layers with a mechanism based entirely on attention.\n\nKey highlights include:\n*   **Core Innovation:** The use of **Multi-Head Self-Attention** allows the model to capture global dependencies between all positions in a sequence simultaneously, enabling massive parallelization and significantly faster training.\n*   **Architectural Design:** It features an encoder-decoder structure that uses positional encoding to account for token order and multi-head attention to process different representation subspaces in parallel.\n*   **Performance:** The model achieved state-of-the-art results on machine translation tasks (WMT 2014) and demonstrated strong performance in other areas like English constituency parsing.\n*   **Efficiency:** By reducing the path length between sequence positions to $O(1)$, the Transformer is highly effective at learning long-range dependencies.\n\nThe document concludes that the Transformer's design is highly extensible, with potential applications beyond text, such as image, audio, and video processing."
+  },
+  {
+    "question": "What is the latest commit on https://github.com/pallets/flask ?",
+    "tool": "github",
+    "retrieval_hit": null,
+    "answer_correct": true,
+    "answer": "The latest commit on the `pallets/flask` repository is \"Merge branch 'stable'\", which was committed on July 30, 2026, at 17:29:33 UTC."
+  }
+]

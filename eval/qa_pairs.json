@@ -1,0 +1,92 @@
+[
+  {
+    "question": "How many layers does the encoder have?",
+    "expected_keywords": ["6", "six"],
+    "source_page": 3,
+    "tool": "retrieve"
+  },
+  {
+    "question": "How many layers does the decoder have?",
+    "expected_keywords": ["6", "six"],
+    "source_page": 3,
+    "tool": "retrieve"
+  },
+  {
+    "question": "How many attention heads are used in the multi-head attention?",
+    "expected_keywords": ["8", "eight"],
+    "source_page": 5,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What is the dimension of the model (d_model)?",
+    "expected_keywords": ["512"],
+    "source_page": 3,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What BLEU score did the model achieve on English-to-German translation?",
+    "expected_keywords": ["28.4"],
+    "source_page": 1,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What BLEU score did the model achieve on English-to-French translation?",
+    "expected_keywords": ["41.8"],
+    "source_page": 1,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What is the dimensionality of the feed-forward inner layer (d_ff)?",
+    "expected_keywords": ["2048"],
+    "source_page": 5,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What optimizer was used to train the model?",
+    "expected_keywords": ["Adam"],
+    "source_page": 7,
+    "tool": "retrieve"
+  },
+  {
+    "question": "How long did the big model take to train?",
+    "expected_keywords": ["3.5", "3.5 days"],
+    "source_page": 7,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What hardware were the models trained on?",
+    "expected_keywords": ["P100", "GPU"],
+    "source_page": 7,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What is the value of the dropout rate P_drop used?",
+    "expected_keywords": ["0.1"],
+    "source_page": 8,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What activation function is used in the feed-forward networks?",
+    "expected_keywords": ["ReLU"],
+    "source_page": 5,
+    "tool": "retrieve"
+  },
+  {
+    "question": "What type of positional encoding does the model use?",
+    "expected_keywords": ["sinusoid", "sine", "cosine"],
+    "source_page": 6,
+    "tool": "retrieve"
+  },
+  {
+    "question": "Give me a summary of the document.",
+    "expected_keywords": ["transformer", "attention"],
+    "source_page": null,
+    "tool": "summarize"
+  },
+  {
+    "question": "What is the latest commit on https://github.com/pallets/flask ?",
+    "expected_keywords": ["commit"],
+    "source_page": null,
+    "tool": "github"
+  }
+]
