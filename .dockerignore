@@ -1,0 +1,12 @@
+# .dockerignore -- keep these OUT of the build. leaner image, and .env never leaks in.
+.venv/
+.git/
+__pycache__/
+*.pyc
+artifacts/
+logs/
+.env
+eval/*.pdf
+research/
+.vscode/
+.streamlit/
