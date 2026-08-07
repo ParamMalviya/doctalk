@@ -1,9 +1,9 @@
-# Dockerfile -- lives at the repo root. the recipe HF uses to build DocTalk's box.
+# Dockerfile -- lives at the repo root. the recipe the host uses to build DocTalk's box.
 
 # start from a slim official Python matching our 3.11 (slim = smaller, faster builds).
 FROM python:3.11-slim
 
-# HF runs the container as user id 1000, NOT root. make that same user FIRST,
+# the host runs the container as user id 1000, NOT root. make that same user FIRST,
 # else files end up owned by root and the app can't write logs/ or the chroma store.
 RUN useradd -m -u 1000 user
 USER user
@@ -25,10 +25,9 @@ COPY --chown=user . .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# note that the app speaks on 7860 (HF's one public door). EXPOSE is just a label
-# -- HF reads the REAL port from app_port in the Space's README later.
-EXPOSE 7860
+# note that the app listens on 8080 (the public port start.sh binds Streamlit to).
+# EXPOSE is just documentation -- the host maps the real traffic to this port.
+EXPOSE 8080
 
-# boot by running our two-server script. "bash start.sh" (not "./start.sh")
-# dodges the executable-bit + Windows line-ending headaches.
+# boot by running our two-server script.
 CMD ["bash", "start.sh"]
