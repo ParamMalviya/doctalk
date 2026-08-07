@@ -1,3 +1,8 @@
+import logging
+
+from tenacity import retry, retry_if_exception, wait_exponential, stop_after_attempt, before_sleep_log
+from google.genai.errors import ClientError
+
 import sys
 
 from langchain_core.messages import HumanMessage
@@ -14,6 +19,17 @@ from doctalk.utils.common import normalise_content
 from doctalk.logger import logger
 from doctalk.exception import CustomException
 
+def _is_rate_limited(exc: BaseException) -> bool:
+    '''
+    True only for a genuine 429. langchain wraps Google's real ClientError
+    into ChatGoogleGenerativeAIError (a plain message, no status code) --
+    but it does so with "from e", same as our own CustomException, so the
+    ORIGINAL ClientError (which DOES carry .code) is still reachable via
+    __cause__. We check THAT, not the wrapper, so we only retry actual
+    rate limits -- not auth errors, bad requests, etc.
+    '''
+    cause = exc.__cause__
+    return isinstance(cause, ClientError) and cause.code == 429
 
 STAGE_NAME = "Chat"
 
@@ -58,6 +74,13 @@ class ChatPipeline:
         except Exception as e:
             raise CustomException(e, sys) from e
 
+    @retry(
+        retry=retry_if_exception(_is_rate_limited),
+        wait=wait_exponential(multiplier=1, min=1, max=10),  # 1s, 2s, 4s... capped at 10s
+        stop=stop_after_attempt(4),                          # up to 4 tries total
+        before_sleep=before_sleep_log(logger, logging.WARNING),
+        reraise=True,  # if every retry still fails, raise the ORIGINAL error, not tenacity's own
+    )
     def ask(self, question: str) -> str:
         '''
         ask the agent a question, return a clean text answer.
