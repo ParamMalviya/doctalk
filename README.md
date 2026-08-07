@@ -32,20 +32,20 @@ The build taught me the parts of ML engineering that don't show up in tutorials:
 
 ```
                         ┌─────────────────────────────────────────┐
-   Browser ──────────▶  │  Streamlit UI  (chat + file upload)      │
+   Browser ──────────▶  │  Streamlit UI  (chat + file upload)    │
                         └───────────────────┬─────────────────────┘
                                             │ HTTP (127.0.0.1)
                         ┌───────────────────▼─────────────────────┐
-                        │  FastAPI backend                         │
-                        │    POST /upload   POST /chat             │
+                        │  FastAPI backend                        │
+                        │    POST /upload   POST /chat            │
                         └───────────────────┬─────────────────────┘
                                             │
                      ┌──────────────────────┼──────────────────────┐
                      ▼                      ▼                       ▼
               ┌────────────┐        ┌──────────────┐        ┌──────────────┐
-              │ Ingestion  │        │ Session-      │        │  LangGraph   │
-              │ pypdf →    │        │ scoped Chroma │        │  agent       │
-              │ chunk      │        │ vector store  │        │  (router)    │
+              │ Ingestion  │        │ Session-     │        │  LangGraph   │
+              │ pypdf →    │        │ scoped Chroma│        │  agent       │
+              │ chunk      │        │ vector store │        │  (router)    │
               └────────────┘        └──────────────┘        └──────┬───────┘
                                                                    │ picks one:
                                         ┌──────────────┬───────────┼───────────┐
