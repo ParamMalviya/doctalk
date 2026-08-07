@@ -6,6 +6,7 @@ from google.genai.errors import ClientError
 import sys
 
 from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.memory import MemorySaver
 
 from doctalk.config.configuration import ConfigurationManager
 from doctalk.components.vector_store import VectorStore
@@ -44,6 +45,7 @@ class ChatPipeline:
 
     def __init__(self, session_id: str, chunks: list):
         try:
+            self.session_id = session_id  # kept for ask() -- doubles as the checkpointer's thread_id
             cm = ConfigurationManager()
             self.params = cm.params
 
@@ -62,11 +64,16 @@ class ChatPipeline:
                 github_repo_info,
             ]
 
-            # build the agent once, reuse for every question
+            # build the agent once, reuse for every question. MemorySaver holds
+            # this session's conversation history IN MEMORY, for this pipeline's
+            # lifetime -- which, since Stage 11's caching change, is the session's
+            # whole life. one checkpointer per session, never shared across sessions.
+            checkpointer = MemorySaver()
             self.agent = build_agent(
                 tools=tools,
                 chat_model=self.params["chat_model"],
                 temperature=self.params["temperature"],
+                checkpointer=checkpointer,
             )
 
             logger.info(f"chat pipeline ready for session {session_id}")
@@ -81,14 +88,20 @@ class ChatPipeline:
         before_sleep=before_sleep_log(logger, logging.WARNING),
         reraise=True,  # if every retry still fails, raise the ORIGINAL error, not tenacity's own
     )
-    def ask(self, question: str) -> str:
+    def ask(self, question: str, thread_id: str | None = None) -> str:
         '''
         ask the agent a question, return a clean text answer.
+        thread_id lets a caller route this SAME cached pipeline to a
+        DIFFERENT conversation thread -- used by eval to keep its 15
+        questions independent, even though they share one built pipeline.
+        defaults to this session's own id (normal production behavior:
+        routes.py never passes this, so nothing there changes).
         '''
         try:
-            result = self.agent.invoke({
-                "messages": [HumanMessage(question)]
-            })
+            result = self.agent.invoke(
+                {"messages": [HumanMessage(question)]},
+                config={"configurable": {"thread_id": thread_id or self.session_id}},
+            )
 
             # the last message is the agent's final answer
             answer = normalise_content(result["messages"][-1].content)

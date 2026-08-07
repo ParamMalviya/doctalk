@@ -58,7 +58,9 @@ def main():
             logger.info(f"[{i}/{len(qa_pairs)}] {question}")
 
             hit = check_retrieval_hit(retriever, question, pair["source_page"])
-            answer = chat.ask(question)
+            # unique thread_id per question -- keeps eval questions independent
+            # even though they all share one cached ChatPipeline/agent
+            answer = chat.ask(question, thread_id=f"{EVAL_SESSION}_{i}")
             correct = check_keywords(answer, pair["expected_keywords"])
 
             results.append({

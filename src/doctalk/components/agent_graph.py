@@ -20,11 +20,15 @@ SYSTEM_PROMPT = (
     "- For questions about a GitHub repository or URL, use github_repo_info.\n"
     "- For current or external facts not in the document, use tavily_search.\n"
     "- When you use retrieved document content, cite the page numbers shown as [page N].\n"
-    "- If a question needs no tool, answer directly and briefly."
+    "- If a question needs no tool, answer directly and briefly.\n"
+    "- You have access to this conversation's earlier turns. If the current "
+    "question refers back to something discussed earlier (e.g. \"what about "
+    "the second one\", \"explain that more\"), use that context to understand "
+    "what's being asked."
 )
 
 
-def build_agent(tools: list, chat_model: str, temperature: float):
+def build_agent(tools: list, chat_model: str, temperature: float, checkpointer=None):
     '''
     build the DocTalk agent from a list of already-built tools.
     the caller assembles session-specific tools (retrieve, summarize)
@@ -39,6 +43,7 @@ def build_agent(tools: list, chat_model: str, temperature: float):
             model=llm,
             tools=tools,
             system_prompt=SYSTEM_PROMPT,
+            checkpointer=checkpointer,  # None -> agent has no memory (unchanged old behavior)
         )
 
         logger.info(f"built agent with tools: {[t.name for t in tools]}")
