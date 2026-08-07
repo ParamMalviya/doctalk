@@ -20,7 +20,9 @@ if "messages" not in st.session_state:
 
 
 # --- upload section ---
-uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
+# 25MB is generous for our real limit (MAX_CHUNKS=80, ~20-25 pages) --
+# this just fixes the misleading "200MB" label to match reality
+uploaded_file = st.file_uploader("Upload a PDF", type="pdf", max_upload_size=25)
 
 if uploaded_file is not None and uploaded_file.name != st.session_state.filename:
     # only upload when it's a NEW file, not on every rerun
