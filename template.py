@@ -63,7 +63,6 @@ list_of_files = [
 
     # --- tests ---
     "tests/__init__.py",
-    "tests/test_ingestion.py",
 
     # --- frontend ---
     "ui/streamlit_app.py",
